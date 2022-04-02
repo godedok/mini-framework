@@ -1,0 +1,21 @@
+version: "3.1"
+
+services:
+  php:
+    build: docker/php-fpm
+    container_name: mini-php
+    restart: always
+    volumes:
+      - ${APPLICATION_DIR}:/var/www/app
+      - ${PHP_INI}:/usr/local/etc/php/php.ini
+
+  nginx:
+    build: docker/nginx
+    container_name: mini-nginx
+    restart: always
+    volumes:
+      - ${NGINX_CONF}/nginx.conf:/etc/nginx/nginx.conf
+      - ${NGINX_CONF}/conf.d:/etc/nginx/conf.d
+      - ${APPLICATION_DIR}:/var/www/app
+    ports:
+      - ${NGINX_PORT}
